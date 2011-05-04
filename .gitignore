@@ -1,0 +1,10 @@
+lib_managed/
+project/boot/
+project/build/target/
+target/
+data/
+logs/
+project/plugins/project/**
+bin/main
+bin/org
+project/plugins/src_managed/
