@@ -77,6 +77,7 @@
 <classpathentry kind="lib" path="lib_managed/scala_2.8.1/compile/spring-beans-3.0.4.RELEASE.jar" />
 <classpathentry kind="lib" path="lib_managed/scala_2.8.1/compile/jersey-scala-1.3.jar" />
 <classpathentry kind="lib" path="lib_managed/scala_2.8.1/compile/akka-camel-1.0.jar" />
+<classpathentry kind="lib" path="lib_managed/scala_2.8.1/test/scalatest-1.3.jar" />
 <classpathentry kind="lib" path="lib_managed/scala_2.8.1/compile/javassist-3.8.0.GA.jar" />
 <classpathentry kind="lib" path="lib_managed/scala_2.8.1/compile/jasper-runtime-5.5.12.jar" />
 <classpathentry kind="lib" path="lib_managed/scala_2.8.1/compile/jersey-json-1.3.jar" />

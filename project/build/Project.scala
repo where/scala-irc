@@ -8,16 +8,20 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
   lazy val EmbeddedRepo   = MavenRepository("Embedded Repo", (info.projectPath / "embedded-repo").asURL.toString)
   lazy val LocalMavenRepo = MavenRepository("Local Maven Repo", (Path.userHome / ".m2" / "repository").asURL.toString)
   lazy val AkkaRepo       = MavenRepository("Akka Repository", "http://akka.io/repository")
+  lazy val ScalaToolsRepo = MavenRepository("Scala Tools Repo", "http://nexus.scala-tools.org/content/repositories/hosted")
 
-  val akkaTypedActor = akkaModule("typed-actor")
-  val akkaKernel     = akkaModule("kernel")
+  lazy val akkaTypedActor = akkaModule("typed-actor")
+  lazy val akkaKernel     = akkaModule("kernel")
+  lazy val scalaTestModuleConfig   = ModuleConfiguration("org.scalatest",   ScalaToolsRepo)
 
   lazy val embeddedRepo   = EmbeddedRepo
   lazy val localMavenRepo = LocalMavenRepo
 
-  override def repositories = Set(AkkaRepo, EmbeddedRepo)
+  override def repositories = Set(AkkaRepo, EmbeddedRepo, ScalaToolsRepo)
 
-  override def libraryDependencies = Set(akkaTypedActor, akkaKernel) map (_ % "compile")
+  lazy val scalaTest      = "org.scalatest"          % "scalatest"       % "1.3"      % "test"
+
+  override def libraryDependencies = (Set(akkaTypedActor, akkaKernel) map (_ % "compile")) ++ Set(scalaTest)
 
   override def compileOptions = super.compileOptions ++
     Seq("-deprecation",
