@@ -1,4 +1,4 @@
-package irc
+package shapesactors
 import org.scalatest.{FlatSpec, FunSuite, BeforeAndAfterAll}
 import org.scalatest.matchers.ShouldMatchers
 

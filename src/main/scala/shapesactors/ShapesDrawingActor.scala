@@ -1,4 +1,4 @@
-package irc
+package shapesactors
 import shapes._
 import akka.actor._
 
