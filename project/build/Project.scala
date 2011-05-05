@@ -20,7 +20,9 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
 
   override def repositories = Set(AkkaRepo, EmbeddedRepo, ScalaToolsRepo)
 
-  lazy val scalaTest  = "org.scalatest" % "scalatest" % "1.3" % "test"
+  val apache = "org.apache.httpcomponents" % "httpclient-cache" % "4.1.1"
+  val apacheSnapshots = "Apache" at "http://repository.apache.org"
+  lazy val scalaTest      = "org.scalatest"          % "scalatest"       % "1.3"      % "test"
 
   override def libraryDependencies = (Set(akkaTypedActor, akkaKernel) map (_ % "compile")) ++ Set(scalaTest)
 

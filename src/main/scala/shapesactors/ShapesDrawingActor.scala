@@ -7,7 +7,7 @@ class ShapeDrawingActor extends Actor {
     case s:Shape =>
       print("-> ")
       s.draw()
-      self.reply("Shape drawn.")
+      self.reply("OH MY GAWD SO GOOD")
     
     case "exit"  =>
       println("-> exiting...")
