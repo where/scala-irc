@@ -12,6 +12,7 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
 
   lazy val akkaTypedActor = akkaModule("typed-actor")
   lazy val akkaKernel     = akkaModule("kernel")
+
   lazy val scalaTestModuleConfig   = ModuleConfiguration("org.scalatest",   ScalaToolsRepo)
 
   lazy val embeddedRepo   = EmbeddedRepo
@@ -19,7 +20,7 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
 
   override def repositories = Set(AkkaRepo, EmbeddedRepo, ScalaToolsRepo)
 
-  lazy val scalaTest      = "org.scalatest"          % "scalatest"       % "1.3"      % "test"
+  lazy val scalaTest  = "org.scalatest" % "scalatest" % "1.3" % "test"
 
   override def libraryDependencies = (Set(akkaTypedActor, akkaKernel) map (_ % "compile")) ++ Set(scalaTest)
 
@@ -35,4 +36,7 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
   // If you want to have run always use a particular class
   // Uncomment this line and define the value appropriately.
   // override def mainClass = Some("shapesactors.ShapesDrawingDriver")
+
+  // This command adds the "boot-akka" command to SBT's console.
+  lazy val bootAkka = runTask("akka.kernel.Main") describedAs "Boot an Akka MicroKernel"
 }
