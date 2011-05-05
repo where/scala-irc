@@ -32,6 +32,7 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
         "-encoding", "utf8")
         .map(x => CompileOption(x))
 
-//  override def mainClass = Some("shapes.ShapesDrawingDriver")
-
+  // If you want to have run always use a particular class
+  // Uncomment this line and define the value appropriately.
+  // override def mainClass = Some("shapesactors.ShapesDrawingDriver")
 }
