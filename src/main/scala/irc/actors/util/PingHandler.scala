@@ -35,15 +35,16 @@ trait PingHandler extends Actor with ActorUtil {
     case Nil => Nil
     case _ => 
       try {
-        val futures = actors map { _ !!! Ping(message) }
+				// We force the future returned by !!! to be Future[String]
+        val futures = actors map { _.!!![String](Ping(message)) }
         Futures.awaitAll(futures)
         handlePingRepliesIn(futures)
       } catch {
         case fte: FutureTimeoutException =>
-          List("error: Actors timed out (" + fte.getMessage + ")")
+          List("error: Actors timed out: " + fte.getMessage)
       }
   }
     
-  def handlePingRepliesIn(futures: Iterable[Future[_]]): List[String] =
-    futuresToList(futures toList, "failed!")
+  def handlePingRepliesIn(futures: Iterable[Future[String]]): List[String] =
+    futuresToList(futures.toList)
 }  
