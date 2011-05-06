@@ -14,6 +14,5 @@ class Boot {
       OneForOneStrategy(List(classOf[Throwable]), 5, 5000),
       Supervise(
         actorOf(new IRCSupervisor).start,
-        Permanent) ::
-      Nil))
+        Permanent) :: Nil))
 }
