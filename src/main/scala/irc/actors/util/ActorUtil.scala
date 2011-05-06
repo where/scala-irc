@@ -1,28 +1,38 @@
 package irc.actors.util
 import akka.dispatch.Future
+import akka.actor.Actor
 
 /**
- * A trait to add "utility" methods to actors, such as extracting JSON from Futures.
+ * A trait to add some useful "utility" methods to actors.
  */
 trait ActorUtil {
+	// The following is a "self-type declaration". It says "you can treat me as
+	// I mixin the Actor trait. Which ever concrete type mixes me in will also
+	// have to mix in (or extend) Actor." Effectively, this lets ActorUtil invoke
+	// Actor instance methods.
+
+	this: Actor =>
+
   /**
-   * When an unknown message is received, return a uniform error message.
+   * When an unknown message is received, Return a BadMessage message
    */
   def unrecognizedMessageHandler: PartialFunction[Any, Unit] = {
-    case message => List("error: Unrecognized message received: " + message)
+    case message => BadMessage(message)
   }
   
   /**
    * Process the result of a list of Actor futures in a uniform way.
    */
-   def futuresToList(futures: List[Future[_]], messageForNone: String): List[String] =
-     (for (future <- futures) yield futureToString(future, messageForNone)).toList
+   def futuresToList[T](futures: List[Future[T]]): List[T] = {
+     val sequence = for {
+			 future <- futures
+		   value  <- future.result
+		 } yield value
+		 sequence.toList
+	 }
 
-  /**
-   * Process the result of a single Actor future in a uniform way.
-   */
-  def futureToString(future: Future[_], messageForNone: String): String = future.result match {
-    case Some(result) => result.toString
-    case None => messageForNone
-  }
+	/**
+	 * Reasonably nice toString method
+	 */
+	override def toString = getClass.getName + "(id = "+ self.id + ", uuid = " + self.uuid + ")"
 }
