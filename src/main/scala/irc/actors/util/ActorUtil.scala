@@ -17,7 +17,7 @@ trait ActorUtil {
    * When an unknown message is received, Return a BadMessage message
    */
   def unrecognizedMessageHandler: PartialFunction[Any, Unit] = {
-    case message => BadMessage(message)
+    case message => self reply BadMessage(message)
   }
   
   /**

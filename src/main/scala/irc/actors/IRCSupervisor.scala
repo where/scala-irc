@@ -49,8 +49,6 @@ class IRCSupervisor extends Actor with ActorUtil with PingHandler {
       self reply Success(subordinates)
     case SubordinatesNames =>
       self reply Success(subordinates.map(_.toString))
-    case message =>
-      self reply BadMessage(message)
   }
 
   def subordinates: List[ActorRef] = Actor.registry.actorsFor[IRCActor].toList
