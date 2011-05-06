@@ -19,21 +19,4 @@ class Boot {
 
   // Do any other custom global initialization here that
 	// should happen After the actors are started:
-	// Here, we set up a dummy test run...
-	def tryit[T](description: String, message: T) = {
-		(ircSupervisor !! message) match {
-			case None => println(description + ": result = None!")
-			case Some(x) => println(description + ": received = Some("+x+").")
-		}
-	}
-	tryit("ping 1", Ping("ping1"))
-	tryit("subordinates empty?", Subordinates)
-	tryit("Make(actor1)", Make("actor1"))
-	tryit("Make(actor2)", Make("actor2"))
-	tryit("Make(actor3)", Make("actor3"))
-	tryit("ping 2", Ping("ping2"))
-	tryit("3 subordinates?", Subordinates)
-	tryit("Destroy(actor2)", Destroy("actor2"))
-	tryit("ping 3", Ping("ping3"))
-	tryit("2 subordinates", Subordinates)
 }
