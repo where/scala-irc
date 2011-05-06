@@ -43,5 +43,5 @@ driver("Destroy(actor2)",     Destroy("actor2"))
 driver("ping 3",              Ping("ping3"))
 driver("2 subordinates",      SubordinatesNames)
 driver("Bogus message!",      "bogus")
-//driver.stop
+driver.stop
 
