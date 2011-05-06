@@ -12,4 +12,4 @@ class FooBarTest extends FunSuite with ShouldMatchers with BeforeAndAfterAll {
     (1 -> 3) should equal (Pair(1,3))
   }
 
-}
+}  

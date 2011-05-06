@@ -1,4 +1,8 @@
 lib_managed/
+.swo
+.swp
+*.swo
+*.swo
 project/boot/
 project/build/target/
 target/
