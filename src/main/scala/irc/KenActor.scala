@@ -1,9 +1,10 @@
-package irc
+package irc.actors
 import shapes._
 import akka.actor._
 import org.apache.http.client._
 import org.apache.http.client.methods._
 import org.apache.http.impl.client._
+import scala.xml._
 
 
 class KenActor extends Actor {  
@@ -26,8 +27,9 @@ class KenActor extends Actor {
       }
 
       val twitter_url = "http://search.twitter.com/search.atom?lang=en&q=" + largest + "+" + secondLargest
-      self.reply(Pair("twitter", getPageContent(twitter_url)))
-      self.reply("good bye!")
+      val title = (XML.loadString(getPageContent(twitter_url)) \\ "feed" \ "entry" \ "title")(0).text
+
+      self.reply(title)
     
     case x  => 
       println("###error: " + x)

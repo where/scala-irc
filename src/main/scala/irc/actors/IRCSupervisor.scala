@@ -8,6 +8,7 @@ sealed trait SupervisorMessage
 
 case class  Make(name:String) extends SupervisorMessage
 case class  Destroy(name:String) extends SupervisorMessage
+case class  Ken(message:String) extends SupervisorMessage
 /**
  * Return the actor refs for this actors subordinates.
  */
@@ -34,7 +35,7 @@ class IRCSupervisor extends Actor with ActorUtil with PingHandler {
   // Should only receive SupervisorMessages.
   def defaultHandler: PartialFunction[Any,Unit] = {
     case Make(name) =>
-      val actorRef = actorOf(new IRCActor(name)).start
+      val actorRef = actorOf[KenActor].start
       self link actorRef
       self reply Success("actor "+name+" created.")
     case Destroy(name) =>
@@ -49,11 +50,16 @@ class IRCSupervisor extends Actor with ActorUtil with PingHandler {
       self reply Success(subordinates)
     case SubordinatesNames =>
       self reply Success(subordinates.map(_.toString))
+    case Ken(message) =>
+      val response = subordinates.head !! message
+      println("Getting the message: " + response)
+      self reply Success("this is a successful call: " + response)
     case message =>
+      println(" setting up a bad message")
       self reply BadMessage(message)
   }
 
-  def subordinates: List[ActorRef] = Actor.registry.actorsFor[IRCActor].toList
+  def subordinates: List[ActorRef] = Actor.registry.actorsFor[KenActor].toList
 
   /**
    * Used by PingHandler; the list of subordinate actors (if any).
