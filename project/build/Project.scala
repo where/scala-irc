@@ -21,6 +21,12 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
   override def repositories = Set(AkkaRepo, EmbeddedRepo, ScalaToolsRepo)
 
   val apache = "org.apache.httpcomponents" % "httpclient-cache" % "4.1.1"
+  //val pircbot = "org.jibble" % "pircbot" % "1.4.6" oval pircbot = "pircbot" % "pircbot" % "1.4.2"
+  val pircbot = "org.jibble" % "pircbot" % "1.4.2" 
+  
+ val pircSnapshots = "pircbot" at  "http://repo1.maven.org"
+
+
   val apacheSnapshots = "Apache" at "http://repository.apache.org"
   lazy val scalaTest      = "org.scalatest"          % "scalatest"       % "1.3"      % "test"
 
