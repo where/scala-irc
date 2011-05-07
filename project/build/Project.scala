@@ -2,9 +2,10 @@ import sbt._
 import sbt.CompileOrder._
 import de.element34.sbteclipsify._
 
-class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
+class IRCBot(info: ProjectInfo) extends DefaultWebProject(info)
 		with AkkaProject with IdeaProject with Eclipsify with Exec {
 
+                
   lazy val EmbeddedRepo   = MavenRepository("Embedded Repo", (info.projectPath / "embedded-repo").asURL.toString)
   lazy val LocalMavenRepo = MavenRepository("Local Maven Repo", (Path.userHome / ".m2" / "repository").asURL.toString)
   lazy val AkkaRepo       = MavenRepository("Akka Repository", "http://akka.io/repository")
@@ -20,17 +21,17 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
 
   override def repositories = Set(AkkaRepo, EmbeddedRepo, ScalaToolsRepo)
 
-  val apache = "org.apache.httpcomponents" % "httpclient-cache" % "4.1.1"
-  //val pircbot = "org.jibble" % "pircbot" % "1.4.6" oval pircbot = "pircbot" % "pircbot" % "1.4.2"
-  val pircbot = "org.jibble" % "pircbot" % "1.4.2" 
+  // Include Apache for HTTP Get
+  lazy val apache = "org.apache.httpcomponents" % "httpclient-cache" % "4.1.1"
+  lazy val apacheSnapshots = "Apache" at "http://repository.apache.org"
   
- val pircSnapshots = "pircbot" at  "http://repo1.maven.org"
-
-
-  val apacheSnapshots = "Apache" at "http://repository.apache.org"
+  // Include PircBot for Bot Protocol
+  lazy val pircbot = "pircbot" % "pircbot" % "1.4.2" 
+  lazy val pircSnapshots = "pircbot" at  "http://repo1.maven.org"
+  
   lazy val scalaTest      = "org.scalatest"          % "scalatest"       % "1.3"      % "test"
 
-  override def libraryDependencies = (Set(akkaTypedActor, akkaKernel) map (_ % "compile")) ++ Set(scalaTest)
+  override def libraryDependencies = (Set(akkaTypedActor, akkaKernel, pircbot) map (_ % "compile")) ++ Set(scalaTest)
 
   override def compileOptions = super.compileOptions ++
     Seq("-deprecation",
@@ -41,11 +42,7 @@ class ActorExample(info: ProjectInfo) extends DefaultWebProject(info)
         "-encoding", "utf8")
         .map(x => CompileOption(x))
 
-  // If you want to have run always use a particular class
-  // Uncomment this line and define the value appropriately.
-  // override def mainClass = Some("irc.ShapesDrawingDriver")
-
-
   // This command adds the "boot-akka" command to SBT's console.
   lazy val bootAkka = runTask("akka.kernel.Main") describedAs "Boot an Akka MicroKernel"
+  
 }

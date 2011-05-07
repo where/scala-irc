@@ -2,7 +2,7 @@ lib_managed/
 .swo
 .swp
 *.swo
-*.swo
+*.swp
 project/boot/
 project/build/target/
 target/
