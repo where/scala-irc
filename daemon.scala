@@ -5,19 +5,6 @@ import irc.actors.util._
 
 import org.jibble.pircbot._;
 
-case class MyBot() extends PircBot {  
-
-        def setup() = {
-                setName("pirc_ken_bot5");
-        }
-
-        override def onMessage(channel : String, sender : String, login : String, hostname:String, message : String)
-        {
-                println("everyone knows " + message + ", duh!")
-                sendMessage("#pircbot", "everyone knows " + message + ", duh!")
-        }
-
-}
 
 // Run the IRC Bot Daemon
 object driver {
@@ -42,13 +29,15 @@ object driver {
         }
 }
 
-//driver.start
-//driver("Make(actor)",        Make("actor"))
+driver.start
+driver("Make(actor)",        Make("actor"))
+driver("Connect(#pircbot)",  Connect("#pircbot"))
 //driver("1 subordinate",     SubordinatesNames)
 //driver("twitter actor should be hit", Ken("Kenneth Cole Reaction is a cool dude"))
 //driver.stop
 
 
+/*
 println("BOT STUFF")
 val bot = MyBot()
 
@@ -70,6 +59,6 @@ println("my passowrd" + bot.getPassword())
 //bot.quitServer("I quit!")
 
 
-
+*/
 
 
