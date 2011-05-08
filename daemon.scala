@@ -7,33 +7,39 @@ import org.jibble.pircbot._;
 
 case class MyBot() extends PircBot {  
 
-def setup() = {
-  setName("pirc_ken_bot5");
-  }
-}
+        def setup() = {
+                setName("pirc_ken_bot5");
+        }
 
+        override def onMessage(channel : String, sender : String, login : String, hostname:String, message : String)
+        {
+                println("everyone knows " + message + ", duh!")
+                sendMessage("#pircbot", "everyone knows " + message + ", duh!")
+        }
+
+}
 
 // Run the IRC Bot Daemon
 object driver {
 
-	var ircSupervisor: ActorRef = _
-	
-	// It's conventional to add empty parentheses to side-effecting methods.
-	def start() = {
-        	remote.start("localhost", 2552)
-		ircSupervisor = remote.actorFor("irc.actors.IRCSupervisor", "localhost", 2552)
-	}
-	
-	def stop() = {
-		remote.shutdown
-	}
+        var ircSupervisor: ActorRef = _
 
-	def apply[T](description: String, message: T) = {
-		(ircSupervisor !! message) match {
-			case None => println("<-- " + description + ": result = None!")
-			case Some(x) => println("<-- " + description + ": received = Some("+x+").")
-		}
-	}
+        // It's conventional to add empty parentheses to side-effecting methods.
+        def start() = {
+                remote.start("localhost", 2552)
+                ircSupervisor = remote.actorFor("irc.actors.IRCSupervisor", "localhost", 2552)
+        }
+
+        def stop() = {
+                remote.shutdown
+        }
+
+        def apply[T](description: String, message: T) = {
+                (ircSupervisor !! message) match {
+                        case None => println("<-- " + description + ": result = None!")
+                        case Some(x) => println("<-- " + description + ": received = Some("+x+").")
+                }
+        }
 }
 
 //driver.start
@@ -60,8 +66,8 @@ bot.connect("irc.freenode.net");
 bot.joinChannel("#pircbot");
 bot.sendMessage("#pircbot", "I just connected")
 println("my passowrd" + bot.getPassword())
-bot.partChannel("#pircbot");
-bot.quitServer("I quit!")
+//bot.partChannel("#pircbot");
+//bot.quitServer("I quit!")
 
 
 
