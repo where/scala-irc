@@ -24,6 +24,8 @@ case object SubordinatesNames extends SupervisorMessage
 
 class IRCSupervisor extends Actor with ActorUtil with PingHandler {
 
+	type Worker = IRCActor
+
   /**
    * The message handler calls "pingHandler" first. If it doesn't match on the message
    * (because it is a PartialFunction), then the "defaultHandler" is tried, and finally
@@ -34,7 +36,7 @@ class IRCSupervisor extends Actor with ActorUtil with PingHandler {
   // Should only receive SupervisorMessages.
   def defaultHandler: PartialFunction[Any,Unit] = {
     case Make(name) =>
-      val actorRef = actorOf(new IRCActor(name)).start
+      val actorRef = actorOf(new Worker(name)).start
       self link actorRef
       self reply Success("actor "+name+" created.")
     case Destroy(name) =>
@@ -51,7 +53,7 @@ class IRCSupervisor extends Actor with ActorUtil with PingHandler {
       self reply Success(subordinates.map(_.toString))
   }
 
-  def subordinates: List[ActorRef] = Actor.registry.actorsFor[IRCActor].toList
+  def subordinates: List[ActorRef] = Actor.registry.actorsFor[Worker].toList
 
   /**
    * Used by PingHandler; the list of subordinate actors (if any).
